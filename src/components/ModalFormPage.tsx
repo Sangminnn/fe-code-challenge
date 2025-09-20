@@ -1,6 +1,7 @@
 import { overlay } from "overlay-kit";
-import { Container, TriggerButton } from "./ModalFormPage.styled";
+import { useRef } from "react";
 import FormModal from "./FormModal";
+import { Container, TriggerButton } from "./ModalFormPage.styled";
 
 interface FormData {
   name: string;
@@ -10,11 +11,19 @@ interface FormData {
 }
 
 const ModalFormPage = () => {
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+
   const handleOpenModal = async () => {
-    const result = await overlay.openAsync<FormData | null>(({ isOpen, close }) => {
-      return <FormModal isOpen={isOpen} close={close} />;
-    });
-    
+    const result = await overlay.openAsync<FormData | null>(
+      ({ isOpen, close, unmount }) => {
+        return <FormModal isOpen={isOpen} close={close} unmount={unmount} />;
+      }
+    );
+
+    setTimeout(() => {
+      triggerButtonRef.current?.focus();
+    }, 0);
+
     if (result) {
       console.log("폼 제출 데이터:", result);
       alert("신청이 완료되었습니다!");
@@ -25,7 +34,7 @@ const ModalFormPage = () => {
 
   return (
     <Container>
-      <TriggerButton onClick={handleOpenModal}>
+      <TriggerButton ref={triggerButtonRef} onClick={handleOpenModal}>
         🚀 신청 폼 작성하기
       </TriggerButton>
     </Container>

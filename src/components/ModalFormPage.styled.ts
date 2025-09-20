@@ -1,5 +1,8 @@
 import styled from "@emotion/styled";
 
+// Animation constants
+export const MODAL_ANIMATION_DURATION = 200; // milliseconds
+
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -30,14 +33,14 @@ export const TriggerButton = styled.button`
 `;
 
 export const ModalOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  animation: fadeIn 0.2s ease-out;
+  z-index: 1;
+  animation: fadeIn ${MODAL_ANIMATION_DURATION}ms ease-out;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -61,7 +64,7 @@ export const ModalContainer = styled.div`
   z-index: 1001;
   max-height: 90vh;
   overflow-y: auto;
-  animation: modalSlideIn 0.2s ease-out;
+  animation: modalSlideIn ${MODAL_ANIMATION_DURATION}ms ease-out;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
